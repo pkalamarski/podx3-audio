@@ -1,0 +1,630 @@
+{
+ "02/00/10": {
+  "name": "Male De-Esser",
+  "params": {
+   "3f100000": "Frequency",
+   "3f100001": "Amount"
+  }
+ },
+ "02/00/2": {
+  "name": "Blue Comp",
+  "params": {
+   "3f100001": "Sustain",
+   "3f100002": "Level"
+  }
+ },
+ "02/00/3": {
+  "name": "Blue Comp Treb",
+  "params": {
+   "3f100001": "Level",
+   "3f100002": "Sustain"
+  }
+ },
+ "02/00/4": {
+  "name": "Red Comp",
+  "params": {
+   "3f100001": "Sustain",
+   "3f100002": "Level"
+  }
+ },
+ "02/00/5": {
+  "name": "Vetta Comp",
+  "params": {
+   "3f100001": "Sensitivity",
+   "3f100002": "Level"
+  }
+ },
+ "02/00/6": {
+  "name": "Vetta Juice",
+  "params": {
+   "3f100001": "Amount",
+   "3f100002": "Level"
+  }
+ },
+ "02/00/7": {
+  "name": "Auto Swell",
+  "params": {
+   "3f100001": "Ramp",
+   "3f100002": "Depth"
+  }
+ },
+ "02/00/9": {
+  "name": "Female De-Esser",
+  "params": {
+   "3f100000": "Frequency",
+   "3f100001": "Amount"
+  }
+ },
+ "02/02/10": {
+  "name": "Reverse Delay",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback"
+  }
+ },
+ "02/02/11": {
+  "name": "Tape Echo",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Bass",
+   "3f100003": "Treble"
+  }
+ },
+ "02/02/12": {
+  "name": "Echo Platter",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Heads",
+   "3f100003": "Flutter"
+  }
+ },
+ "02/02/13": {
+  "name": "Low Rez",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Tone",
+   "3f100003": "Bits"
+  }
+ },
+ "02/02/14": {
+  "name": "Phaze Eko",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Speed",
+   "3f100003": "Depth"
+  }
+ },
+ "02/02/15": {
+  "name": "Bubble Echo",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Speed",
+   "3f100003": "Depth"
+  }
+ },
+ "02/02/2": {
+  "name": "Analog Delay",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Bass",
+   "3f100003": "Treble"
+  }
+ },
+ "02/02/3": {
+  "name": "Analog Delay w/Modulation",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Speed",
+   "3f100003": "Depth"
+  }
+ },
+ "02/02/4": {
+  "name": "Tube Echo",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Flutter",
+   "3f100003": "Drive"
+  }
+ },
+ "02/02/5": {
+  "name": "Multi-Head Delay",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Heads",
+   "3f100003": "Flutter"
+  }
+ },
+ "02/02/6": {
+  "name": "Sweep Echo",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Speed",
+   "3f100003": "Depth"
+  }
+ },
+ "02/02/7": {
+  "name": "Digital Delay",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Bass",
+   "3f100003": "Treble"
+  }
+ },
+ "02/02/8": {
+  "name": "Stereo Delay",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Offset",
+   "3f100002": "Fdbk Left",
+   "3f100003": "Fdbk Right"
+  }
+ },
+ "02/02/9": {
+  "name": "Ping Pong Delay",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Time",
+   "3f100001": "Feedback",
+   "3f100002": "Offset",
+   "3f100003": "Spread"
+  }
+ },
+ "02/03/10": {
+  "name": "Opto Tremolo",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Wave"
+  }
+ },
+ "02/03/11": {
+  "name": "Bias Tremolo",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Wave"
+  }
+ },
+ "02/03/12": {
+  "name": "Rotary Drum + Horn",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100002": "Tone"
+  }
+ },
+ "02/03/14": {
+  "name": "Auto Pan",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Wave"
+  }
+ },
+ "02/03/18": {
+  "name": "Stereo Square Chorus",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Predelay",
+   "3f100003": "Feedback"
+  }
+ },
+ "02/03/19": {
+  "name": "Expo Flange",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Feedback",
+   "3f100003": "Manual"
+  }
+ },
+ "02/03/21": {
+  "name": "Analog Square Chorus",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Bass",
+   "3f100003": "Treble"
+  }
+ },
+ "02/03/24": {
+  "name": "Random S & H",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Q"
+  }
+ },
+ "02/03/30": {
+  "name": "Stereo Expo Chorus",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Predelay",
+   "3f100003": "Feedback"
+  }
+ },
+ "02/03/31": {
+  "name": "Stereo Square Flange",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Predelay",
+   "3f100003": "Feedback"
+  }
+ },
+ "02/03/4": {
+  "name": "Sine Chorus",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Bass",
+   "3f100003": "Treble"
+  }
+ },
+ "02/03/5": {
+  "name": "Analog Chorus",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Bass",
+   "3f100003": "Treble"
+  }
+ },
+ "02/03/6": {
+  "name": "Line 6 Flanger",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth"
+  }
+ },
+ "02/03/7": {
+  "name": "Jet Flanger",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth",
+   "3f100002": "Feedback",
+   "3f100003": "Manual"
+  }
+ },
+ "02/03/8": {
+  "name": "Phaser",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Feedback"
+  }
+ },
+ "02/03/9": {
+  "name": "U-Vibe",
+  "params": {
+   "3f010001": "Mix",
+   "3f100000": "Speed",
+   "3f100001": "Depth"
+  }
+ },
+ "02/04/10": {
+  "name": "Large Hall",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/11": {
+  "name": "Rich Chamber",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/14": {
+  "name": "Slap Plate",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/15": {
+  "name": "Vintage Plate",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/16": {
+  "name": "Large Plate",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/2": {
+  "name": "'Lux Spring",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Dwell",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/3": {
+  "name": "Standard Spring",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Dwell",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/5": {
+  "name": "Small Room",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/6": {
+  "name": "Tiled Room",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/7": {
+  "name": "Brite Room",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/8": {
+  "name": "Dark Hall",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/04/9": {
+  "name": "Medium Hall",
+  "params": {
+   "3f010002": "Mix",
+   "3f100000": "Decay",
+   "3f100001": "Predelay",
+   "3f100002": "Tone"
+  }
+ },
+ "02/05/0": {
+  "name": "Facial Fuzz",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Gain",
+   "3f100003": "Tone"
+  }
+ },
+ "02/05/1": {
+  "name": "Tube Drive",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Treble",
+   "3f100003": "Gain",
+   "3f100004": "Bass"
+  }
+ },
+ "02/05/2": {
+  "name": "Fuzz Pi",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Gain",
+   "3f100003": "Tone"
+  }
+ },
+ "02/05/3": {
+  "name": "Screamer",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Gain",
+   "3f100003": "Tone"
+  }
+ },
+ "02/05/4": {
+  "name": "Octave Fuzz",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Gain",
+   "3f100003": "Tone"
+  }
+ },
+ "02/05/5": {
+  "name": "Classic Distortion",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Gain",
+   "3f100003": "Tone"
+  }
+ },
+ "02/05/7": {
+  "name": "Boost + EQ",
+  "params": {
+   "3f100001": "Gain",
+   "3f100002": "Bass",
+   "3f100003": "Treble",
+   "3f100004": "Mid",
+   "3f100005": "Mid Freq"
+  }
+ },
+ "02/05/9": {
+  "name": "Bronze Master",
+  "params": {
+   "3f100001": "Drive",
+   "3f100002": "Tone",
+   "3f100004": "Blend"
+  }
+ },
+ "02/06/0": {
+  "name": "Vetta Wah",
+  "params": {
+   "3f000001": "Position"
+  }
+ },
+ "02/06/3": {
+  "name": "Fassel",
+  "params": {
+   "3f000001": "Position"
+  }
+ },
+ "02/06/4": {
+  "name": "Weeper",
+  "params": {
+   "3f000001": "Position"
+  }
+ },
+ "02/06/5": {
+  "name": "Chrome",
+  "params": {
+   "3f000001": "Position"
+  }
+ },
+ "02/06/6": {
+  "name": "Chrome Custom",
+  "params": {
+   "3f000001": "Position"
+  }
+ },
+ "02/06/7": {
+  "name": "Throaty",
+  "params": {
+   "3f000001": "Position"
+  }
+ },
+ "02/0a/11": {
+  "name": "Clean Sweep",
+  "params": {
+   "3f100001": "Decay",
+   "3f100002": "Sensitivity",
+   "3f100003": "Q"
+  }
+ },
+ "02/0a/12": {
+  "name": "Seismik Synth",
+  "params": {
+   "3f100001": "Wave",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0a/13": {
+  "name": "Sub Octaves",
+  "params": {
+   "3f100001": "-1 Oct",
+   "3f100002": "-2 Oct",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0a/3": {
+  "name": "Synth Analog",
+  "params": {
+   "3f100001": "Wave",
+   "3f100002": "Filter",
+   "3f100003": "Decay",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0a/5": {
+  "name": "Buzz Wave",
+  "params": {
+   "3f100001": "Wave",
+   "3f100002": "Filter",
+   "3f100003": "Decay",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0a/7": {
+  "name": "Saturn 5 Ring Mod",
+  "params": {
+   "3f100001": "Wave",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0a/8": {
+  "name": "Double Bass",
+  "params": {
+   "3f100001": "-1 Oct",
+   "3f100002": "-2 Oct",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0a/9": {
+  "name": "Synth Harmony",
+  "params": {
+   "3f100001": "Interval",
+   "3f100002": "Interval",
+   "3f100003": "Wave",
+   "3f100004": "Mix"
+  }
+ },
+ "02/0b/1": {
+  "name": "Compressor",
+  "params": {
+   "3f100000": "Threshold",
+   "3f100001": "Gain"
+  }
+ },
+ "02/0b/10": {
+  "name": "FX Loop",
+  "params": {
+   "3f000001": "Send",
+   "3f000002": "Return",
+   "3f010001": "Mix"
+  }
+ }
+}

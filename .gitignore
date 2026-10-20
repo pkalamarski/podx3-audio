@@ -1,0 +1,4 @@
+build/
+*.wav
+.DS_Store
+CLAUDE.local.md

@@ -1,0 +1,18 @@
+#!/bin/sh
+# One command for the web UI: builds whatever is out of date, starts the
+# controller server in the background (if it isn't running) and opens the
+# browser. The monitor is switched on and off from the page.
+set -e
+ROOT=$(cd "$(dirname "$0")" && pwd -P)
+cd "$ROOT"
+
+make -s -C audio
+
+cd control
+[ -d node_modules ] || npm ci --silent
+if [ ! -f dist/server.js ] || [ -n "$(find src -newer dist/server.js -print -quit)" ]; then
+    npm run -s build
+    # A server started from the old build would keep running it.
+    node dist/cli.js server stop >/dev/null
+fi
+exec node dist/cli.js ui

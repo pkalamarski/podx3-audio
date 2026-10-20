@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>POD X3 Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500&family=VT323&display=swap">
+<style>
+/* Layout: device header with an LCD readout; preset bank grid on the left, signal chain of block strips on the right. */
+:root {
+  --bg: #eceae6;
+  --panel: #f8f7f5;
+  --line: #d3cfc8;
+  --fg: #1f1d1b;
+  --muted: #6d6862;
+  --accent: #c8102e;        /* POD red */
+  --accent-fg: #ffffff;
+  --lcd-bg: #2b3a1f;
+  --lcd-fg: #c9f27a;
+  --on: #2f8f3e;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+  --font-lcd: "VT323", ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161514; --panel: #201f1d; --line: #35322f; --fg: #ece8e2; --muted: #9a948c;
+    --accent: #e8344f; --accent-fg: #ffffff; --lcd-bg: #1b2612; --lcd-fg: #b7e65a; --on: #53c065;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--fg); font: 15px/1.4 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px 40px;
+}
+button, select, input { font: inherit; color: inherit; }
+button {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 6px;
+  padding: 6px 12px; cursor: pointer; font-family: var(--font-display); font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase; font-size: 13px;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: .45; cursor: default; }
+.label { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: 12px; color: var(--muted); }
+
+header.device {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center;
+  max-width: 1280px; margin: 0 auto 16px;
+}
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: .02em; }
+.brand span { color: var(--accent); }
+.lcd {
+  background: var(--lcd-bg); color: var(--lcd-fg); font-family: var(--font-lcd);
+  border-radius: 6px; padding: 6px 14px; min-width: 0;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.45);
+  display: flex; gap: 18px; align-items: baseline; overflow: hidden;
+}
+.lcd .slot { font-size: 34px; line-height: 1; }
+.lcd .name { font-size: 30px; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.lcd .meta { margin-left: auto; font-size: 20px; opacity: .8; white-space: nowrap; }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; }
+.monitor { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.monitor button { border: 0; border-radius: 0; display: inline-flex; align-items: center; gap: 7px; }
+.monitor select { border: 0; border-left: 1px solid var(--line); background: var(--panel); padding: 0 8px; font-size: 13px; }
+.monitor .led { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background .2s, box-shadow .2s; }
+.monitor button[aria-pressed="true"] .led { background: var(--on); box-shadow: 0 0 8px var(--on); }
+.monitor button[aria-busy="true"] .led { animation: blink .6s steps(2) infinite; }
+@keyframes blink { 50% { background: var(--muted); } }
+.nav-link {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 12px;
+  font-family: var(--font-display); font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  font-size: 13px; color: inherit; text-decoration: none;
+}
+.nav-link:hover { border-color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
+
+main { display: grid; grid-template-columns: minmax(300px, 440px) 1fr; gap: 20px; max-width: 1280px; margin: 0 auto; }
+section.presets, section.chain { min-width: 0; }
+.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+.section-head h2 { font-family: var(--font-display); font-size: 18px; margin: 0; text-transform: uppercase; letter-spacing: .06em; }
+
+.banks { display: grid; gap: 6px; }
+.bank { display: grid; grid-template-columns: 22px repeat(4, minmax(0, 1fr)); gap: 4px; align-items: stretch; }
+.bank .num { font-family: var(--font-display); font-weight: 700; color: var(--muted); align-self: center; text-align: right; font-variant-numeric: tabular-nums; }
+.preset {
+  text-transform: none; letter-spacing: 0; font-family: var(--font-body); font-weight: 500; font-size: 12px;
+  padding: 5px 6px; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.preset b { font-family: var(--font-display); color: var(--muted); margin-right: 4px; }
+.preset.active { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.preset.active b { color: inherit; }
+.empty { color: var(--muted); padding: 12px 0; }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin: 8px 0; }
+.progress i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+
+.blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; align-items: start; }
+.block { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 8px; min-width: 0; }
+.block.off { opacity: .62; }
+.block-head { display: flex; align-items: center; gap: 8px; }
+.block-head h3 { margin: 0; font-family: var(--font-display); font-size: 17px; text-transform: uppercase; letter-spacing: .05em; }
+.pos { font-family: var(--font-display); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; text-transform: uppercase; }
+.switch { margin-left: auto; width: 46px; height: 24px; border-radius: 12px; padding: 0; position: relative; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: left .15s, background .15s; }
+.switch[aria-checked="true"] { border-color: var(--on); }
+.switch[aria-checked="true"]::after { left: 25px; background: var(--on); }
+.block select { width: 100%; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+.model-fixed { font-weight: 500; }
+.knob { display: grid; grid-template-columns: minmax(80px, 38%) 1fr 40px; gap: 8px; align-items: center; font-size: 13px; }
+.knob span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.knob output, .knob .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.knob input[type=range] { width: 100%; accent-color: var(--accent); }
+.knob input[type=number] { width: 100%; padding: 2px 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); }
+.tone-meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+
+#toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: 6px; font-size: 14px; max-width: calc(100% - 32px); }
+#toast.err { background: var(--accent); color: var(--accent-fg); }
+
+@media (max-width: 860px) {
+  header.device { grid-template-columns: 1fr; }
+  .controls { justify-content: flex-start; }
+  main { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="device">
+  <div class="brand">POD <span>X3</span></div>
+  <div class="lcd" aria-live="polite">
+    <span class="slot" id="lcd-slot">--</span>
+    <span class="name" id="lcd-name">Pick a preset</span>
+    <span class="meta" id="lcd-meta">connecting…</span>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Tone being edited">
+      <button id="tone-1" aria-pressed="true">Tone 1</button>
+      <button id="tone-2" aria-pressed="false">Tone 2</button>
+    </div>
+    <div class="monitor" role="group" aria-label="POD audio on the Mac">
+      <button id="mon-toggle" aria-pressed="false" title="POD audio on the Mac's output"><i class="led"></i>Monitor</button>
+      <select id="mon-pair" aria-label="Monitor source">
+        <option value="main">Main</option>
+        <option value="tone1">Tone 1</option>
+        <option value="tone2">Tone 2</option>
+        <option value="di">DI (dry guitar)</option>
+        <option value="silent">Tuner only</option>
+      </select>
+    </div>
+    <button id="revert" disabled>Revert</button>
+    <button id="backup">Backup</button>
+    <a class="nav-link" href="/tuner.html">Tuner</a>
+  </div>
+</header>
+
+<main>
+  <section class="presets">
+    <div class="section-head">
+      <h2>Presets</h2>
+      <button id="scan">Refresh list</button>
+    </div>
+    <div class="progress" id="progress" hidden><i></i></div>
+    <div class="banks" id="banks"><div class="empty">Loading presets from the device…</div></div>
+  </section>
+
+  <section class="chain">
+    <div class="section-head">
+      <h2 id="chain-title">Signal chain</h2>
+    </div>
+    <div class="tone-meta" id="tone-meta"></div>
+    <div class="blocks" id="blocks"><div class="empty">Click a preset on the left to load and edit it.</div></div>
+  </section>
+</main>
+<div id="toast" hidden></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const state = { status: null, presets: [], patch: null, models: null, tone: 0, monitor: null };
+
+async function api(method, path, body) {
+  const res = await fetch(path, { method, headers: { 'content-type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error);
+  return json.result;
+}
+
+let toastTimer;
+function toast(msg, err = false) {
+  const t = $('toast');
+  t.textContent = msg; t.className = err ? 'err' : ''; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), err ? 5000 : 2000);
+}
+const guard = (fn) => async (...a) => { try { return await fn(...a); } catch (e) { toast(e.message, true); } };
+
+function renderStatus() {
+  const s = state.status; if (!s) return;
+  $('lcd-meta').textContent = s.connected ? `${s.model}${s.current?.dirty ? ' · edited' : ''}` : 'not connected';
+  if (s.current) { $('lcd-slot').textContent = s.current.slotName; $('lcd-name').textContent = s.current.name; }
+  $('revert').disabled = !s.current?.dirty;
+  const p = $('progress');
+  p.hidden = s.scanning == null;
+  if (s.scanning != null) p.firstElementChild.style.width = `${(s.scanning / 64) * 100}%`;
+}
+
+function renderMonitor() {
+  const m = state.monitor; if (!m) return;
+  const btn = $('mon-toggle');
+  btn.setAttribute('aria-pressed', String(m.running));
+  $('mon-pair').value = m.silent ? 'silent' : m.pair;
+  btn.title = m.running
+    ? (m.silent ? 'Monitor on: tuner only, no playback' : `Playing on: ${m.output ?? 'Mac output'}${m.underruns ? ` · dropouts: ${m.underruns}` : ''}`)
+    : 'POD audio on the Mac\'s output';
+}
+const monitorBody = () => { const v = $('mon-pair').value; return v === 'silent' ? { silent: true } : { silent: false, pair: v }; };
+async function setMonitor(body) {
+  const btn = $('mon-toggle');
+  btn.setAttribute('aria-busy', 'true');
+  try { state.monitor = await api('POST', '/api/monitor', body); renderMonitor(); }
+  catch (e) { toast('Monitor: ' + e.message, true); }
+  finally { btn.removeAttribute('aria-busy'); }
+}
+$('mon-toggle').onclick = () => setMonitor(state.monitor?.running ? { on: false } : { on: true, ...monitorBody() });
+// Changing the source while running restarts the monitor with it.
+$('mon-pair').onchange = () => { if (state.monitor?.running) setMonitor({ on: true, ...monitorBody() }); };
+
+function renderPresets() {
+  const el = $('banks');
+  if (state.presets.length !== 64) { el.innerHTML = '<div class="empty">Loading presets from the device (about 10 s)…</div>'; return; }
+  el.replaceChildren();
+  const cur = state.status?.current?.slot;
+  for (let bank = 0; bank < 16; bank++) {
+    const row = document.createElement('div'); row.className = 'bank';
+    row.innerHTML = `<span class="num">${bank + 1}</span>`;
+    for (const p of state.presets.slice(bank * 4, bank * 4 + 4)) {
+      const b = document.createElement('button');
+      b.className = 'preset' + (p.slot === cur ? ' active' : '');
+      b.title = `${p.slotName} ${p.name}`;
+      b.innerHTML = `<b>${'ABCD'[p.slot % 4]}</b>`; b.append(p.name);
+      b.onclick = guard(async () => { b.disabled = true; try { state.patch = await api('POST', '/api/load', { slot: p.slot }); renderPatch(); toast(`Loaded ${p.slotName} ${p.name}`); } finally { b.disabled = false; } });
+      row.append(b);
+    }
+    el.append(row);
+  }
+}
+
+// Draw order of the chain, as GearBox draws it: pre-amp blocks, amp & cab, comp, EQ, post-amp blocks.
+function chainOrder(blocks) {
+  const pre = blocks.filter((b) => b.group === 2).sort((a, b) => a.slot - b.slot);
+  const amp = ['amp', 'cab', 'comp', 'eq'].map((id) => blocks.find((b) => b.id === id)).filter((b) => b && (b.group === 3 || b.id === 'comp'));
+  const post = blocks.filter((b) => b.group === 5 && b.id !== 'comp').sort((a, b) => a.slot - b.slot);
+  return [...pre, ...amp, ...post];
+}
+
+const fmt = (v) => (Math.abs(v) <= 1 ? v.toFixed(2) : v.toFixed(1));
+
+function throttle(fn, ms) {
+  let last = 0, timer, pending;
+  return (...a) => {
+    pending = a; const now = Date.now();
+    if (now - last >= ms) { last = now; fn(...pending); }
+    else { clearTimeout(timer); timer = setTimeout(() => { last = Date.now(); fn(...pending); }, ms - (now - last)); }
+  };
+}
+
+function modelControl(block) {
+  const list = state.models?.models[block.id];
+  if (!list) { const d = document.createElement('div'); d.className = 'model-fixed'; d.textContent = block.modelName; return d; }
+  const sel = document.createElement('select');
+  sel.id = `model-${block.id}`; sel.setAttribute('aria-label', `Model ${block.label}`);
+  const groups = {};
+  for (const m of list) {
+    const opt = new Option(m.name, `${m.table ?? ''}:${m.model}`);
+    if (m.model === block.model && (m.table == null || m.table === block.table)) opt.selected = true;
+    const g = m.group || '';
+    (groups[g] ||= []).push(opt);
+  }
+  if (![...Object.values(groups)].flat().some((o) => o.selected)) sel.append(new Option(block.modelName, '', true, true));
+  for (const [g, opts] of Object.entries(groups)) {
+    if (!g || Object.keys(groups).length === 1) sel.append(...opts);
+    else { const og = document.createElement('optgroup'); og.label = g; og.append(...opts); sel.append(og); }
+  }
+  sel.onchange = guard(async () => {
+    const m = list.find((x) => `${x.table ?? ''}:${x.model}` === sel.value);
+    await api('POST', '/api/model', { tone: state.tone + 1, block: block.id, model: list.filter((x) => x.model === m.model).length > 1 ? m.name : m.model });
+    state.patch = await api('GET', '/api/patch'); renderPatch(); toast(`${block.label}: ${m.name}`);
+  });
+  return sel;
+}
+
+function renderPatch() {
+  const el = $('blocks');
+  if (!state.patch) return;
+  const tone = state.patch.tones[state.tone];
+  $('chain-title').textContent = `Signal chain · Tone ${state.tone + 1}`;
+  $('tone-meta').textContent = `${tone.name} · mic ${tone.micName} · room ${fmt(tone.room)} · ${tone.tempo.toFixed(1)} BPM${state.tone === 1 && !tone.active ? ' · Tone 2 off (dual tone off)' : ''}`;
+  el.replaceChildren();
+  for (const b of chainOrder(tone.blocks)) {
+    const card = document.createElement('div');
+    card.className = 'block' + (b.enabled || b.id === 'cab' ? '' : ' off');
+    const head = document.createElement('div'); head.className = 'block-head';
+    head.innerHTML = `<h3>${b.label}</h3><span class="pos">${b.position}</span>`;
+    if (b.id !== 'cab') {
+      const sw = document.createElement('button');
+      sw.className = 'switch'; sw.setAttribute('role', 'switch'); sw.setAttribute('aria-checked', String(b.enabled)); sw.setAttribute('aria-label', `${b.label} on/off`);
+      sw.onclick = guard(async () => {
+        const enabled = sw.getAttribute('aria-checked') !== 'true';
+        await api('POST', '/api/enabled', { tone: state.tone + 1, block: b.id, enabled });
+        sw.setAttribute('aria-checked', String(enabled)); card.classList.toggle('off', !enabled);
+      });
+      head.append(sw);
+    }
+    card.append(head, modelControl(b));
+    for (const p of b.params) {
+      const row = document.createElement('label'); row.className = 'knob';
+      const name = document.createElement('span'); name.textContent = p.name; row.append(name);
+      const id = `p-${b.id}-${p.key}`;
+      const send = (v) => api('POST', '/api/param', { tone: state.tone + 1, block: b.id, param: p.key, value: v }).catch((e) => toast(e.message, true));
+      if (p.normalized) {
+        const input = Object.assign(document.createElement('input'), { type: 'range', min: 0, max: 1, step: 0.01, value: p.value, id });
+        const out = document.createElement('output'); out.textContent = fmt(p.value);
+        const live = throttle(send, 40);
+        input.oninput = () => { out.textContent = fmt(+input.value); live(+input.value); };
+        row.append(input, out);
+      } else {
+        const input = Object.assign(document.createElement('input'), { type: 'number', step: 'any', value: +p.value.toFixed(2), id });
+        input.onchange = () => send(+input.value);
+        row.append(input, document.createElement('span'));
+      }
+      card.append(row);
+    }
+    el.append(card);
+  }
+}
+
+function setTone(t) {
+  state.tone = t;
+  $('tone-1').setAttribute('aria-pressed', String(t === 0));
+  $('tone-2').setAttribute('aria-pressed', String(t === 1));
+  renderPatch();
+  api('POST', '/api/tone', { tone: t + 1 }).catch(() => {});
+}
+$('tone-1').onclick = () => setTone(0);
+$('tone-2').onclick = () => setTone(1);
+$('revert').onclick = guard(async () => { state.patch = await api('POST', '/api/revert'); renderPatch(); toast('Reverted to the stored preset'); });
+$('backup').onclick = guard(async () => { toast('Backing up all 64 presets…'); const r = await api('POST', '/api/backup'); toast(`Backup saved: ${r.dir}`); });
+$('scan').onclick = guard(async () => { state.presets = await api('GET', '/api/presets?refresh=1'); renderPresets(); });
+
+const events = new EventSource('/api/events');
+events.onmessage = (e) => {
+  const ev = JSON.parse(e.data);
+  const hadSlot = state.status?.current?.slot;
+  state.status = ev.status; renderStatus();
+  if (ev.monitor) {
+    if (state.monitor?.running && !ev.monitor.running && ev.monitor.error) toast('Monitor: ' + ev.monitor.error, true);
+    state.monitor = ev.monitor; renderMonitor();
+  }
+  if (ev.type === 'presets') api('GET', '/api/presets/cached').then((p) => { state.presets = p; renderPresets(); });
+  if (ev.type === 'patch' && ev.status.current) {
+    api('GET', '/api/patch').then((p) => { state.patch = p; renderPatch(); });
+    if (hadSlot !== ev.status.current.slot) renderPresets();
+  }
+  if (ev.type === 'param' && state.patch) {
+    // Mirror edits made elsewhere (e.g. from the CLI) into the sliders.
+    const input = document.getElementById(`p-${ev.block}-${ev.key}`);
+    if (input && ev.tone === state.tone && document.activeElement !== input) {
+      input.value = ev.value; if (input.nextElementSibling?.tagName === 'OUTPUT') input.nextElementSibling.textContent = fmt(ev.value);
+    }
+  }
+};
+
+(async () => {
+  state.models = await api('GET', '/api/models');
+  state.status = await api('GET', '/api/status'); renderStatus();
+  state.monitor = await api('GET', '/api/monitor'); renderMonitor();
+  state.patch = await api('GET', '/api/patch'); if (state.patch) renderPatch();
+  state.presets = await api('GET', '/api/presets/cached'); renderPresets();
+  if (state.presets.length !== 64) guard(async () => { state.presets = await api('GET', '/api/presets'); renderPresets(); })();
+})().catch((e) => toast(e.message, true));
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.pkalamarski.podx3d</string>
+	<!-- Template: install.sh fills in @PODX3D@ (the build output, run in place: rebuild,
+	     then `kill` the helper and launchd restarts it) and @USER@. -->
+	<key>ProgramArguments</key>
+	<array>
+		<string>@PODX3D@</string>
+	</array>
+	<!-- System domain so the sandboxed HAL plug-in host can look the service up; no root needed. -->
+	<key>UserName</key>
+	<string>@USER@</string>
+	<key>MachServices</key>
+	<dict>
+		<key>com.pkalamarski.podx3d</key>
+		<true/>
+	</dict>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>ThrottleInterval</key>
+	<integer>2</integer>
+	<!-- Not throttled like a background daemon; the USB thread needs real-time scheduling. -->
+	<key>ProcessType</key>
+	<string>Interactive</string>
+	<key>ExitTimeOut</key>
+	<integer>10</integer>
+</dict>
+</plist>

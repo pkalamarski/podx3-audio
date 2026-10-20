@@ -1,0 +1,38 @@
+{
+  "name": "podx3-control",
+  "version": "1.0.0",
+  "description": "Userspace driver, CLI and web controller for the Line 6 POD X3 over USB",
+  "main": "dist/device.js",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/server.js",
+    "pod": "node dist/cli.js"
+  },
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "dependencies": {
+    "usb": "^3.2.1"
+  },
+  "bin": {
+    "pod": "dist/cli.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "public",
+    "data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pkalamarski/podx3-macos.git",
+    "directory": "control"
+  }
+}
